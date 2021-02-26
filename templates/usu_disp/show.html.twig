@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}UsuDisp{% endblock %}
+
+{% block body %}
+    <h1>UsuDisp</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ usu_disp.id }}</td>
+            </tr>
+            <tr>
+                <th>Id_dispositivo</th>
+                <td>{{ usu_disp.idDispositivo }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('usu_disp_index') }}">back to list</a>
+
+    <a href="{{ path('usu_disp_edit', {'id': usu_disp.id}) }}">edit</a>
+
+    {{ include('usu_disp/_delete_form.html.twig') }}
+{% endblock %}
