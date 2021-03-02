@@ -24,15 +24,10 @@ class Dispositivos
      */
     private $descripcion;
 
-    /**
-     * @ORM\OneToMany(targetEntity=UsuDisp::class, mappedBy="dispositivos")
+     /**
+     * @ORM\ManyToMany(targetEntity="Usuario", mappedBy="dispositivos")
      */
-    private $usuDisps;
-
-    public function __construct()
-    {
-        $this->usuDisps = new ArrayCollection();
-    }
+    private $usuarios;
 
     public function getId(): ?int
     {
@@ -51,33 +46,4 @@ class Dispositivos
         return $this;
     }
 
-    /**
-     * @return Collection|UsuDisp[]
-     */
-    public function getUsuDisps(): Collection
-    {
-        return $this->usuDisps;
-    }
-
-    public function addUsuDisp(UsuDisp $usuDisp): self
-    {
-        if (!$this->usuDisps->contains($usuDisp)) {
-            $this->usuDisps[] = $usuDisp;
-            $usuDisp->setDispositivos($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUsuDisp(UsuDisp $usuDisp): self
-    {
-        if ($this->usuDisps->removeElement($usuDisp)) {
-            // set the owning side to null (unless already changed)
-            if ($usuDisp->getDispositivos() === $this) {
-                $usuDisp->setDispositivos(null);
-            }
-        }
-
-        return $this;
-    }
 }

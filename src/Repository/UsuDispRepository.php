@@ -19,6 +19,18 @@ class UsuDispRepository extends ServiceEntityRepository
         parent::__construct($registry, UsuDisp::class);
     }
 
+    public function findAllByIdUsuario($value)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.id_usuario = :val')
+            ->setParameter('val', $value)
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
     // /**
     //  * @return UsuDisp[] Returns an array of UsuDisp objects
     //  */

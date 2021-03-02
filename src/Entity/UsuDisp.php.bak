@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Entity;
+
+//use App\Repository\UsuDispRepository;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass=UsuDispRepository::class)
+ */
+class UsuDisp
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     */
+    private $id_usuario;
+
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     */
+    private $id_dispositivo;
+
+    
+    public function getIdUsuario(): ?int
+    {
+        return $this->id_usuario;
+    }
+
+    public function getIdDispositivo(): ?int
+    {
+        return $this->id_dispositivo;
+    }
+
+    public function setIdUsuario(int $id_usuario): self
+    {
+        $this->id_usuario = $id_usuario;
+
+        return $this;
+    }
+
+    public function setIdDispositivo(int $id_dispositivo): self
+    {
+        $this->id_dispositivo = $id_dispositivo;
+
+        return $this;
+    }
+
+}

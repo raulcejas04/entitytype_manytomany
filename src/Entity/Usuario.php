@@ -30,13 +30,17 @@ class Usuario
     private $id_usuario_a;
 
     /**
-     * @ORM\OneToMany(targetEntity=UsuDisp::class, mappedBy="usuario")
+     * @ORM\ManyToMany(targetEntity="Dispositivos", inversedBy="usuarios", fetch="EAGER")
+     * @ORM\JoinTable(name="UsuDisp",
+     *  joinColumns={@ORM\JoinColumn(name="usuario_id", referencedColumnName="id")},
+     *  inverseJoinColumns={@ORM\JoinColumn(name="dispositivo_id", referencedColumnName="id")}
+     *  )
      */
-    private $usuDisps;
+    private $dispositivos;
 
     public function __construct()
     {
-        $this->usuDisps = new ArrayCollection();
+        $this->dispositivos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -69,32 +73,42 @@ class Usuario
     }
 
     /**
-     * @return Collection|UsuDisp[]
+     * @return Collection|Dispositivos[]
      */
-    public function getUsuDisps(): Collection
+    public function getDispositivos(): Collection
     {
-        return $this->usuDisps;
+        return $this->dispositivos;
     }
 
-    public function addUsuDisp(UsuDisp $usuDisp): self
+    public function setDispositivos(ArrayCollection $dispositivos)
     {
-        if (!$this->usuDisps->contains($usuDisp)) {
-            $this->usuDisps[] = $usuDisp;
-            $usuDisp->setUsuario($this);
-        }
+      $this->dispositivos = new ArrayCollection();
+      if (is_null($dispositivos)) {
+          return;
+      }
+  
+      foreach ($dispositivos as $dispositivo) {
+          $this->addDispositivo($dispositivo);
+      }
+  
+      return $this;
+    }
+  
+    public function addDispositivo(Dispositivo $dispositivo): self
+    {
+        if (!$this->dispositivos->contains($dispositivo)) {
+            $this->dispositivos[] = $dispositivo;
 
+        }
         return $this;
     }
 
-    public function removeUsuDisp(UsuDisp $usuDisp): self
+    public function removeDispositivo(Dispositivo $dispositivo): self
     {
-        if ($this->usuDisps->removeElement($usuDisp)) {
-            // set the owning side to null (unless already changed)
-            if ($usuDisp->getUsuario() === $this) {
-                $usuDisp->setUsuario(null);
-            }
+        if ($this->dispositivos->contains($dispositivo)) {
+            $this->dispositivos->removeElement($dispositivo);
+            $dispositivo->removeGroupe($this);
         }
-
         return $this;
     }
 }
